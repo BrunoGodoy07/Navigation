@@ -55,7 +55,7 @@ function StackUno() {
   );
 }
 
-function Yello1({ navigation }) {
+function Yellow1({ navigation }) {
   return (
     <View style={[styles.screen, { backgroundColor: '#FFF' }]}>
       
@@ -70,7 +70,7 @@ function Yello1({ navigation }) {
         
       </View>
       <Text style={styles.text}>Presiona aqui para patear el dispenser de agua.</Text>
-      <Button title="Patear" onPress={() => navigation.navigate('TennaAgresivo')} 
+      <Button title="Patear" onPress={() => navigation.navigate('Amarillo2')} 
       style={{color: '#dc143c'}}
       />
     </View>
