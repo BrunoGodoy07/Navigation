@@ -4,15 +4,40 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
+import { ImageBackground } from 'react-native-web';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const QueenQuieta = require('./assets/Queen_battle (1).gif')
 const QueenGirando = require('./assets/Queen_battle_hurt.gif')
+const doxeado = require('./assets/doxeado.png')
+const fondoQueen = require('./assets/chapter2.jpg')
+
 
 function FormScreen({ navigation }) {
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
+
+  const validarFormulario = () => {
+    if (!nombre.trim() || !telefono.trim()) {
+      alert('Por favor completá todos los campos.');
+      return;
+    }
+
+    const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!soloLetras.test(nombre)) {
+      alert('El nombre solo debe contener letras.');
+      return;
+    }
+
+    const soloNumeros = /^[0-9]+$/;
+    if (!soloNumeros.test(telefono)) {
+      alert('El teléfono solo debe contener números.');
+      return;
+    }
+
+    navigation.navigate('Confirmacion', { nombre, telefono });
+  };
 
   return (
     <View style={[styles.screen, { backgroundColor: '#FFB6C1' }]}>
@@ -24,23 +49,32 @@ function FormScreen({ navigation }) {
         style={styles.input}
         onChangeText={setTelefono}
         value={telefono}
+        keyboardType="phone-pad"
       />
 
-      <Button
-        title="Confirmar"
-        onPress={() => navigation.navigate('Confirmacion', { nombre, telefono })}
-      />
+      <Button title="Confirmar" onPress={validarFormulario} />
     </View>
   );
 }
+
 
 function ConfirmScreen({ route, navigation }) {
   const { nombre, telefono } = route.params;
 
   return (
     <View style={[styles.screen, { backgroundColor: '#FFB6C1' }]}>
-      <Text style={styles.text}>Hola {nombre}!</Text>
+      <Text style={styles.text}>Nombre: {nombre}</Text>
       <Text style={styles.text}>Tu teléfono es: {telefono}</Text>
+      <Text style={styles.text}>Ip: 133.35.189.71</Text>
+      <Text style={styles.text}>Direccion: Paseo Micaela, 57 - Coon Rapids, Man / 33401</Text>
+      <Text style={styles.text}>Fecha de nacimiento: 09/08/2005</Text>
+      <Text style={styles.text}>Mail: caridadriojas48@yahoo.com</Text>
+      <Text style={styles.text}>Contraseña mail: 27Kv8pIyaBp028l</Text>
+      <Text style={styles.text}>Tarjeta de credito: 50185993676644238</Text>
+      <Text style={styles.text}>Código de seguirad: 860</Text>
+      <Image source={doxeado}
+          style={{ width: 100, height: 160, marginBottom: 20 }}
+        />
       <Button title="Volver" onPress={() => navigation.goBack()} />
     </View>
   );
@@ -132,25 +166,31 @@ function StackTres() {
 
 function Blue1({ navigation }) {
   return (
-    <View style={[styles.screen, { backgroundColor: '#87CEFA' }]}>
-      <Image
-          source={QueenQuieta}
-          style={{ width: 210, height: 300, marginBottom: 20 }}
-        />
-      <Button title="Girar" onPress={() => navigation.navigate('Azul2')} />
-    </View>
+      <ImageBackground
+      source={fondoQueen}>
+        <View style={[styles.screen]}>
+          <Image source={QueenQuieta} style={{ width: 210, height: 300, marginBottom: 20 }}/>
+          <Button title="Girar" onPress={() => navigation.navigate('Azul2')} />
+        </View>
+      </ImageBackground>
   );
 }
 
 function Blue2({ navigation }) {
   return (
-    <View style={[styles.screen, { backgroundColor: '#87CEFA' }]}>
+    
+    <ImageBackground
+    source={fondoQueen}
+    resizeMode= 'cover'>
+      <View style={[styles.screen]}>
       <Image
           source={QueenGirando}
           style={{ width: 210, height: 300, marginBottom: 20 }}
         />
       <Button title="Dejar de girar" onPress={() => navigation.goBack()} />
     </View>
+    </ImageBackground>
+    
   );
 }
 
@@ -194,7 +234,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   text: {
-    fontSize: 22,
+    fontSize: 20,
     marginBottom: 20,
     fontWeight: 'bold',
     textAlign: 'center'
